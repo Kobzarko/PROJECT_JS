@@ -13,7 +13,7 @@ function Start() {
   }
 }
 
-Start();
+//Start();
 
 // создаем объект
 let appData = {
