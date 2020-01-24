@@ -1,19 +1,44 @@
 "use strict";
 
+let startBtn = document.getElementById('start'),
+  budgetValue = document.getElementsByClassName('budget-value')[0],
+  dayBudgetValue = document.getElementsByClassName('dayBudget-value')[0],
+  levelValue = document.getElementsByClassName('level-value')[0],
+  expensesValue = document.getElementsByClassName('expenses-value')[0],
+  incomeValue = document.getElementsByClassName('income-value')[0],
+  monthSavingsValue = document.getElementsByClassName('monthsavings-value')[0],
+  yearSavingsValue = document.getElementsByClassName('yearsavings-value')[0],
+
+  expensesItem = document.getElementsByClassName('expenses-item'),
+  expensesBtn = document.getElementsByTagName('button')[0],
+  optionalExpensesBtn = document.getElementsByTagName('button')[1],
+  countBtn = document.getElementsByTagName('button')[2],
+  optionalExpensesItem = document.querySelectorAll('.optionalexpenses-item'),
+  incomeItem = document.querySelector('.choose-income'),
+  checkSavings = document.querySelector('#savings'),
+  sumValue = document.querySelector('.choose-sum'),
+  percentValue = document.querySelector('.choose-percent'),
+  yearValue = document.querySelector('.year-value'),
+  monthValue = document.querySelector('.month-value'),
+  dayValue = document.querySelector('.day-value');
+
+
+
 // объявляем глобальные переменные
 let money, time;
 
 function Start() {
   // ставим пустые кавычки для записи результата в переменную
   (money = +prompt("Ваш бюджет на месяц?", "")),
-    (time = prompt("Введите дату в формате YYYY-MM-DD", ""));
+  (time = prompt("Введите дату в формате YYYY-MM-DD", ""));
 
   while (isNaN(money) || money == "" || money == null) {
     money = +prompt("Ваш бюджет на месяц?", "");
   }
 }
 
-//Start();
+
+Start();
 
 // создаем объект
 let appData = {
@@ -24,7 +49,7 @@ let appData = {
   timeData: time,
   savings: true,
 
-  chooseExpenses: function() {
+  chooseExpenses: function () {
     for (let i = 0; i < 2; i++) {
       let a = prompt("Введите обязательную статью расходов в этом месяце", ""),
         b = prompt("Во сколько обойдется?", "");
@@ -46,12 +71,12 @@ let appData = {
     }
   },
 
-  detectDayBudget: function() {
+  detectDayBudget: function () {
     appData.moneyPerDay = (appData.budget / 30).toFixed();
     alert("Бюджет на 1 день составляет " + appData.moneyPerDay + "uah");
   },
 
-  detectLevel: function() {
+  detectLevel: function () {
     if (appData.moneyPerDay < 100) {
       console.log("Это минимальный уровень достатка!");
     } else if (appData.moneyPerDay > 100 && appData.moneyPerDay < 2000) {
@@ -63,7 +88,7 @@ let appData = {
     }
   },
 
-  checkSavings: function() {
+  checkSavings: function () {
     if (appData.savings == true) {
       let save = +prompt("Какая сумма накоплений?"),
         percent = +prompt("Под какой процент?");
@@ -73,7 +98,7 @@ let appData = {
     }
   },
 
-  chooseOptExpenses: function() {
+  chooseOptExpenses: function () {
     for (let i = 1; i <= 3; i++) {
       let questionOptExpenses = prompt("Статья необязательных расходов?");
       appData.optionalExpenses[i] = questionOptExpenses;
@@ -81,7 +106,7 @@ let appData = {
     }
   },
 
-  chooseIncome: function() {
+  chooseIncome: function () {
     let items = prompt(
       "Что принесет дополнительный доход? (Перечислите через запятую) ",
       ""
@@ -96,7 +121,7 @@ let appData = {
       //this.chooseIncome();
     }
 
-    appData.income.forEach(function(itemmassive, i) {
+    appData.income.forEach(function (itemmassive, i) {
       alert("Способы доп. заработка: " + (i + 1) + " - " + itemmassive);
     });
   }
