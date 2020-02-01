@@ -5,6 +5,7 @@ let startBtn = document.getElementById('start'),
   dayBudgetValue = document.getElementsByClassName('dayBudget-value')[0],
   levelValue = document.getElementsByClassName('level-value')[0],
   expensesValue = document.getElementsByClassName('expenses-value')[0],
+  optionalExpensesValue = document.getElementsByClassName('optionalexpenses-value')[0],
   incomeValue = document.getElementsByClassName('income-value')[0],
   monthSavingsValue = document.getElementsByClassName('monthsavings-value')[0],
   yearSavingsValue = document.getElementsByClassName('yearsavings-value')[0],
@@ -27,18 +28,65 @@ let startBtn = document.getElementById('start'),
 // объявляем глобальные переменные
 let money, time;
 
-function Start() {
-  // ставим пустые кавычки для записи результата в переменную
-  (money = +prompt("Ваш бюджет на месяц?", "")),
-  (time = prompt("Введите дату в формате YYYY-MM-DD", ""));
+// expensesBtn.disabled = true;
+// optionalExpensesBtn.disabled = true;
+// countBtn.disabled = true;
 
+
+
+
+startBtn.addEventListener('click', function () {
+
+
+  time = prompt("Введите дату в формате YYYY-MM-DD", '');
+  money = +prompt("Ваш бюджет на месяц?", '');
+  // проверяем на число
   while (isNaN(money) || money == "" || money == null) {
-    money = +prompt("Ваш бюджет на месяц?", "");
+    money = prompt("Ваш бюджет на месяц?", "");
   }
-}
+  // фиксируем введенные данные пользователя
+  appData.budget = money;
+  appData.timeData = time;
+  //  выводим эти данные на экран в поле budget-Value
+  budgetValue.textContent = money.toFixed();
+  //  запишем данные времени в value 
+  // добавим год в нужное поле 
+  yearValue.value = new Date(Date.parse(time)).getFullYear();
+  // добавим месяц в нужное  поле
+  // месяц начинается с нуля
+  monthValue.value = new Date(Date.parse(time)).getMonth() + 1;
+  // добавим день в нужное поле
+  //getDay возвращает день недели !
+  dayValue.value = new Date(Date.parse(time)).getDate();
+});
 
+// поле утвердить 
+expensesBtn.addEventListener('click', function () {
+  let sum = 0;
 
-Start();
+  for (let i = 0; i < expensesItem.length; i++) {
+    let a = expensesItem[i].value,
+      b = expensesItem[++i].value;
+    if (
+      typeof a === "string" &&
+      typeof a != null &&
+      typeof b != null &&
+      a != "" &&
+      b != "" &&
+      a.length < 50
+    ) {
+      console.log("well done");
+      appData.expenses[a] = b;
+      // слаживаем полученный результат в sum
+      sum += +b; // незабываем проверить на число "+b"
+    } else {
+      // с помощью декремента возвращаем цикл на единицу обратно
+
+      i--;
+    }
+  }
+});
+
 
 // создаем объект
 let appData = {
@@ -50,25 +98,7 @@ let appData = {
   savings: true,
 
   chooseExpenses: function () {
-    for (let i = 0; i < 2; i++) {
-      let a = prompt("Введите обязательную статью расходов в этом месяце", ""),
-        b = prompt("Во сколько обойдется?", "");
-      if (
-        typeof a === "string" &&
-        typeof a != null &&
-        typeof b != null &&
-        a != "" &&
-        b != "" &&
-        a.length < 50
-      ) {
-        console.log("well done");
-        appData.expenses[a] = b;
-      } else {
-        // с помощью декремента возвращаем цикл на единицу обратно
 
-        i--;
-      }
-    }
   },
 
   detectDayBudget: function () {
